@@ -67,17 +67,11 @@
     
     
     //clean up
-    if(cgimage)
-        CFRelease(cgimage);
-    
     if(cgmask)
         CFRelease(cgmask);
     
     if(maskedImage)
         CFRelease(maskedImage);
-    
-    //end the graphics context
-    UIGraphicsEndImageContext();
     
     return resultImage;
 }
