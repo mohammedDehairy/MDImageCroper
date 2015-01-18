@@ -53,35 +53,16 @@
 }
 -(UIImage*)cropImage:(UIImage *)image withCGPath:(CGPathRef)path
 {
-    //begin context
-    UIGraphicsBeginImageContextWithOptions(image.size, NO, 1.0);
     
-    //get a reference to the current context
-    CGContextRef currentContext = UIGraphicsGetCurrentContext();
+    CGImageRef cgimage = image.CGImage;
     
-    //allow antialiasing
-    CGContextSetShouldAntialias(currentContext, YES);
-    CGContextSetAllowsAntialiasing(currentContext, YES);
-    CGContextSetInterpolationQuality(currentContext, kCGInterpolationHigh);
-    
-    
-    //invert the image vertically to compensate for the UIKit/QuartzCore coordiate systems difference
-    CGContextTranslateCTM(currentContext, 0.0, image.size.height);
-    CGContextScaleCTM(currentContext, 1.0, -1.0);
-    
-    //Draw the given image to the context
-    CGContextDrawImage(currentContext, CGRectMake(0, 0, image.size.width, image.size.height), image.CGImage);
-    
-    //render the context to a CGImageRef
-    CGImageRef cgimage = CGBitmapContextCreateImage(currentContext);
-    
-    //get the circle mask
+    //get the image mask
     CGImageRef cgmask = [self imageMaskWithSize:image.size withCGPath:path];
     
-    //apply the circle mask
+    //apply the image mask
     CGImageRef maskedImage = CGImageCreateWithMask(cgimage, cgmask);
     
-    //get the output UIImage after applying the circle mask
+    //get the output UIImage after applying the image mask
     UIImage *resultImage = [UIImage imageWithCGImage:maskedImage];
     
     
