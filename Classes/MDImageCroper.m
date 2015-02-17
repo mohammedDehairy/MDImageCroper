@@ -11,6 +11,11 @@
 @implementation MDImageCroper
 -(CGImageRef)imageMaskWithSize:(CGSize)size withCGPath:(CGPathRef)path
 {
+    if(CGSizeEqualToSize(size, CGSizeZero))
+    {
+        return nil;
+    }
+    
     // Grayscale color space
     CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceGray();
     
